@@ -6,6 +6,7 @@ var url = 'http://loggedmessage.io/log'; // so this is our endpoint for the http
 
 function log(message) {
     // here we will send the HTTP request
+    console.log(message)
 }
 
 // So now want to export this function to another module. To achieve this we want to do the following:
@@ -23,6 +24,9 @@ module.exports.newName = url; // now the exported url will be visible as newName
 
 // Keep in mind that the url portion is better off under the hood in real life apps.
 // This means that we only want to export the function for better maintainability of the code between modules.
+// We can also export only a function or variable without the method.
+// That means that we can perform the following export which will export only the pure function:
+module.exports = log;
 
 // So now that we have created the module it's time to learn how to load it
 // Go to moduleLoad.js:
