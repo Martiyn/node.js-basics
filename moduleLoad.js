@@ -20,5 +20,3 @@ messenger.log('message'); // this is an exported object
 // And if we want to load our exported function where the method was not declared it would look like this:
 messenger('message'); // this is an exported function
 // Notice how the .log method is missing because we didn't declare it. 
-
-

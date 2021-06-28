@@ -1,15 +1,19 @@
 // In this module we will create a remote logging service which serves to log messages.
 // We will emulate a website that logs messages. The site sends a URL that we use to send a HTTP request to log our message to the server.
 // WARNING! this is a fictitious enactment only for demonstrative purposes.
+// The function below will demonstrate exactly how Node modularity works.
+// Keep in mind that node does not execute code directly, but instead it wraps the code in a function.
+// At runtime our Node code is going to look like this:
 
+(function (exports, require, module, __filename, __dirname){
 var url = 'http://loggedmessage.io/log'; // so this is our endpoint for the http request.
 
 function log(message) {
     // here we will send the HTTP request
     console.log(message)
 }
-
-// So now want to export this function to another module. To achieve this we want to do the following:
+}) // This is called a module wrapper function.
+// So now want to export this log function to another module. To achieve this we want to do the following:
 
 module.exports.log = log; // we add the log method to the exports object and we set it to the function named log.
 
