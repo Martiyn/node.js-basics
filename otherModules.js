@@ -116,6 +116,11 @@ emitter.addListener('messageLogged', function(e){
 });
 // We can name the object in any way we want, although most often "e" is used as it is short, and refers to event.
 // When we log this instance of the listener we can see that it logs the object as well.
+// Very important to know that instead of .addListener we can use .on like so:
+
+emitter.on('messageLogged', function(e){
+    console.log('Listener called', e)
+});
 
 
 // It is extremely important to note that in real world apps we will pretty much never use an instance of event emitter like we have here.
@@ -149,7 +154,64 @@ module.exports = Logger;
 const Logger = require('./module.js') // NOTE: I am making a call to the class that is in this file, but am simulating it being in module.js.
 const logger = new Logger;
 // And here we want to register our listener:
-logger.addListener('messageLogged', function(e){
+logger.on('messageLogged', function(e){
     console.log('Listener called', e) // notice how we replaced "emitter.addListener" with "logger.addListener"
 });
 // This is the proper way to signal and listen for events in a real-world app.
+
+
+// Now this next module is one of the most important and powerful tools in node.js
+// We are talking about ne HTTP module.
+// With this module we can easily create a back-end service to use in our app
+// Now let's load up the HTTP module and have a closer look at it:
+
+const http = require('http');
+
+// One of the functions defined in the module is:
+
+const server = http.createServer();
+
+// As the name implies we have just created a server and stored it in the const variable
+// This server is practically an event emitter
+
+server.listen(3000); //We have given the server a port (in this case port 3000)
+
+console.log('Listening on port 3000..'); // With this console command the message will be displayed ot port 3000
+// The server will listen on port 3000
+// Whenever there is a new connection or request, the server raises an event, so we can use the .on method to listen to the event
+
+server.on('connection', function(socket){
+    console.log('new connection');
+})
+
+// The server object creates events to which you respond.
+// Keep in mind that the above code was for demonstrative purposes and in real world apps you won't be responding to the connection event.
+// Instead a more fitting example for a real world app would be:
+
+const server = http.createServer(function(req, res){
+if (req.url === '/') {
+    res.write('Hello there')
+    res.end();
+}
+});
+// We have placed a callback function in our http.createServer
+// In this callback function instead of working with a socket, we work with request and response objects.
+// This gives us great flexibility, as seen when we send a request, we subsequently get a response.
+// In this case we check for the url of the request, and if it is true, then we get a response (in this case a string).
+// In real world apps we will probably have to handle multiple routes, thus http.createServer needs to be adjusted
+// An example would be:
+
+const server = http.createServer(function(req, res){
+    if (req.url === '/') {
+        res.write('Hello there')
+        res.end();
+    }
+
+    if(req.url === 'api/myapi') {
+        res.write(JSON.stringify([1, 2, 3])) // In this case we aren't using a database, so we want to return something simple, like an array of numbers.
+        res.end()
+    }
+    });
+// Here in this case we want to return something from the API database.
+// We use JSON to be able to return an array of objects using the stringify method.
+// The JSON syntax will transform this array to a string, which will be displayed using the .write method.
