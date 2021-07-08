@@ -32,3 +32,51 @@
 
 // Express will give us a proper code structure to maintain our reusability
 // Here we will create our first web server using Express
+
+const express = require('express')//: here we call the express module that we have installed
+
+const app = express()//This is an object of type express which is a function. We will store it in a const "app"
+// This app object has some very useful methods which we will look over Below
+// Starting with:
+
+app.get()
+app.post()
+app.put()
+app.delete()
+// These correspond with the four HTTP methods that were listed above which allow us to freely manipulate data
+
+// Now for simplicity we want to work with the get method
+// We want to implement some endpoints that respond to a http get request
+// The method takes two arguments, them being, the target URL and a callback function
+// Let's have a look:
+
+app.get('/', (req, res) => {
+    res.send("Hello There");
+})// I will use ES6 arrow function for the callback
+// This is how we define a route, we have defined a URL, and a callback function which serves as a route handler
+// We can define a second route pretty much the same way:
+
+app.get('/api/customers', (req, res) => {
+    res.send([1, 2, 3])
+})
+
+// We also need to listen on a given port like so:
+
+app.listen(3000, () => console.log("I'm listening"))// Here we have defined a listener
+// The listener is set to listen on port 3000 and has an added optional callback function
+// VERY IMPORTANT to note that if we listen on just port 3000 we will display the first get request
+// But if we listen on port 3000/api/customers then we will display the second get request
+// Notice how here we don't use any if statements, thus making our code clean and maintainable
+// With this structure, the bigger our app gets we won't have problems shifting the code even to other files
+// Express gives our application a structure that we can work around
+
+// Now we will have a look at a node package known as nodemon
+// The purpose of this package is to simplify a process that I will now explain 
+// To load up your app you need to do so using the terminal by targeting the file you wish to start
+// It is essentially done like so:
+
+// IN TERMINAL: node (target file, for example index.js)
+// It is important to keep in mind that this command runs the code
+// But if any changes are made to the code then the process must be stopped using ^C
+// That creates the need to restart the app with the node command
+// As you can guess, that isn't very convenient, and is what nodemon essentially changes
