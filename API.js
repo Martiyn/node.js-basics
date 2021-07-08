@@ -30,3 +30,5 @@
 
 // These four methods are what is known as the RESTful convention, which is most widely used
 
+// Express will give us a proper code structure to maintain our reusability
+// Here we will create our first web server using Express
