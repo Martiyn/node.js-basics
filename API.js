@@ -174,3 +174,32 @@ app.post('/api/customers', (req, res) => {
 // In express json isn't activated by default, so we activate it like this:
 
 app.use(express.json()) // NOTE: this must be initialized at the top of the request after we get the app object
+
+
+// Now I want to pay attention to input validation
+
+app.post('/api/customers', (req, res) => {
+ if (!req.body.name || req.body.name.length < 3) {
+     res.status(400).send('Name has to be at least 3 chars and is required')
+     return;
+ }
+    const customer = {
+        id: customers.length + 1,
+        name: req.body.name
+    }
+    customers.push(customer)
+    res.send(customer)
+})
+
+// In this case we are checking the post method name object
+// Because we can never trust the server we want to ensure ourselves with logic that can validate our name
+// The if statement at the top of the code block handles this operation
+// It checks if the name object exists OR if it is at least 3 characters long
+// If it does not meet those parameters, then error 400 will occur along with the message
+// We place the return statement at the if statement to end the function there if the parameters are not met
+
+// NOTE: this validation logic is way too complicated to be efficient in a real world application
+// When keeping in mind that we are validating such a simple object it would pass
+// But in real apps our objects will be much more complicated and as such require a more simple approach
+// Hence we need to install a small npm package called "joi"
+// It will allow us to simplify our logic thus making the code more maintainable
