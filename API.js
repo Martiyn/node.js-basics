@@ -203,3 +203,27 @@ app.post('/api/customers', (req, res) => {
 // But in real apps our objects will be much more complicated and as such require a more simple approach
 // Hence we need to install a small npm package called "joi"
 // It will allow us to simplify our logic thus making the code more maintainable
+// Now let's use joi to replace our validation logic:
+
+const Joi = require('joi') // We call joi and store it in a variable 
+
+app.post('/api/customers', (req, res) => {
+    const schema = {
+        name: Joi.string().min(3).required()
+    }
+   const result = Joi.validate(req.body, schema)
+   if (result.error) {
+    res.status(400).send(result.error)
+    return;
+    }
+       const customer = {
+           id: customers.length + 1,
+           name: req.body.name
+       }
+       customers.push(customer)
+       res.send(customer)
+   })
+
+   // As we can see joi really simplifies the process of input validation
+   // It makes the logic necessary for the process reusable and simple to implement
+   
