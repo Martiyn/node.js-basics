@@ -152,3 +152,25 @@ app.get('/api/customers/:id', (req, res) => {
 // If we have a corresponding id then we just set the server response to display the customer
 
 
+// Now let's have a closer look at how to handle POST requests
+// With this method we will be creating a new customer
+// We would do that like so:
+
+app.post('/api/customers', (req, res) => {
+    const customer = {
+        id: customers.length + 1,
+        name: req.body.name
+    }
+    customers.push(customer)
+    res.send(customer)
+})
+
+// What we did above was to create a new customer object that we add to our array of customers
+// In the callback code block we create the new customer with the corresponding id and name
+// We then push the new customer to the array of customers, adding him to the list
+// Then in the response we display the newly added customer
+
+// It needs to be noted that the name object will work only once we enable the parsing of JSON objects
+// In express json isn't activated by default, so we activate it like this:
+
+app.use(express.json()) // NOTE: this must be initialized at the top of the request after we get the app object
