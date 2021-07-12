@@ -120,3 +120,27 @@ app.get('/api/customers/:id', (req, res) => {
 // We can have more than one parameters in our url like let's say '/api/customers/:id/:name'
 // Thus we have another identifying parameter which we can use 
 
+
+// Next up we want to handle a GET request on a specified object
+// We will define an array of objects in this case customers
+// We will do as follows:
+
+const customers = [
+    {id: 1, name: 'customer1'},
+    {id: 2, name: 'customer2'},
+    {id: 3, name: 'customer3'}
+];
+
+// Now we have defined our customers database and we want to get customer1 in particular
+// We would go about doing this like so:
+
+app.get('/api/customers/:id', (req, res) => {
+  const customer = customers.find(c => c.id === parseInt(req.params.id))
+})
+
+// Now let's explain what we just did
+// We store our result in a variable called customer
+// We use the find method to locate a given object in the array
+// As arguments to the method we present a function that we use to find an object of a matching criteria
+// The function in essence is a boolean value in which the id of c equals the request parameter id
+// As (req.params.id) will return a string, we use the parseInt method to parse it to an integer
