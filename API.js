@@ -80,3 +80,43 @@ app.listen(3000, () => console.log("I'm listening"))// Here we have defined a li
 // But if any changes are made to the code then the process must be stopped using ^C
 // That creates the need to restart the app with the node command
 // As you can guess, that isn't very convenient, and is what nodemon essentially changes
+
+// Now with nodemon the terminal command changes in a simple way like so:
+
+// IN TERMINAL: nodemon (target file, for example index.js)
+// With this command nodemon is now watching all the files in the folder
+// Now if you make any changes to your code nodemon will automaticly restart your app
+
+
+// Now we need to have a look at the app.listen()method closely
+// In particular we want to check the port which is being listened to
+// In this case it is port 3000, and although it may work on our local machine it won't work in a production environment
+// To handle this issue we need to create an environment host variable 
+// The environment variable works as follows:
+
+const port = process.env.PORT || 3000 // here "process is a global object", "env" is the property for environment variable and "PORT" is the name of our port
+// In short if the environment variable is set we will use it otherwise we will use port 3000
+// Now that we have setup the variable we will replace 3000 with it like so:
+
+app.listen(port, () => console.log('listening on port'))
+
+// Now on a local machine we want to create this environment variable using the terminal like so:
+
+// IN TERMINAL: set PORT=5000
+// With this command now the app will listen on port 5000 
+// The environment variable must be defined in the terminal
+// This is the proper way to add a port to your node applications
+
+
+// Above we defined a route to get a list of customers (line: 59), but now we will use a route to get a single customer
+// Let's see how we can implement this:
+
+app.get('/api/customers/:id', (req, res) => {
+    res.send(req.params.id)
+})
+// Here it is noticeable that we added an identifying parameter in this case ":id"
+// The parameter can be named anyway we want, but id is highly recommended as it is convenient
+// Then in the response we call the id parameter and send it to the client with the contents of the callback function
+// We can have more than one parameters in our url like let's say '/api/customers/:id/:name'
+// Thus we have another identifying parameter which we can use 
+
