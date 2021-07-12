@@ -136,6 +136,8 @@ const customers = [
 
 app.get('/api/customers/:id', (req, res) => {
   const customer = customers.find(c => c.id === parseInt(req.params.id))
+  if (!customer) res.status(404).send('The customer was not found')
+  res.send(customer)
 })
 
 // Now let's explain what we just did
@@ -144,3 +146,9 @@ app.get('/api/customers/:id', (req, res) => {
 // As arguments to the method we present a function that we use to find an object of a matching criteria
 // The function in essence is a boolean value in which the id of c equals the request parameter id
 // As (req.params.id) will return a string, we use the parseInt method to parse it to an integer
+// If we are unable to locate a corresponding customer object then we return a response 404
+// 404 is the default response for a missing object
+// We can also add a message like in the case shown above
+// If we have a corresponding id then we just set the server response to display the customer
+
+
